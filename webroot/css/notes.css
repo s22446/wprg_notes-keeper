@@ -111,3 +111,10 @@ body {
 .login-button:hover {
     background: #47484d;
 }
+
+/*
+    NOTES INDEX
+*/
+.notes-main-container {
+    display: flex;
+}
