@@ -10,6 +10,7 @@
 
         <?= $this->Html->meta('icon') ?>
         <?= $this->Html->css(['notes', 'normalize.min', 'milligram.min']) ?>
+        <?= $this->Html->script(['jquery-3.6.0.min']) ?>
     </head>
     <body>
         <div class="main-container">
