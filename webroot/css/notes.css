@@ -1,11 +1,113 @@
+/*
+    GENERAL STYLING
+*/
+
+html, body {
+    width: 100%;
+    height: 100%;
+}
+
 body {
     background: #202124;
 }
 
 .main-container {
     display: flex;
-    align-content: center;
+    align-items: center;
     justify-content: center;
     width: 100%;
     height: 100%;
+    flex-direction: column;
+}
+
+.message.error {
+    color: red;
+}
+
+.message.success {
+    color: rgb(72, 211, 72);
+}
+
+/*
+    LOGIN/CREATE ACCOUNT PAGE
+*/
+
+.login-form-container {
+    display: flex;
+    flex-direction: column;
+    color: white;
+    width: 50%;
+    height: auto;
+    background: #303134;
+    padding: 5px;
+    gap: 10px;
+}
+
+.login-header {
+    display: flex;
+    justify-content: center;
+    font-size: 28px;
+    font-weight: 600;
+    height: auto;
+    border-bottom: 1px solid rgb(60, 64, 67);
+}
+
+.login-header-text {
+    width: auto;
+}
+
+.login-main {
+    padding: 10px 10px 20px 10px;
+}
+
+.login-main-text {
+    letter-spacing: 2px;
+    height: auto;
+    padding: 5px;
+    text-align: center;
+}
+
+.login-input-container {
+    display: flex;
+    height: auto;
+}
+
+.login-input-text {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding-bottom: 1.5rem;
+    min-width: 100px;
+    width: auto;
+}
+
+.login-input {
+    display: contents;
+    width: auto;
+}
+
+.login-input-box {
+    color: white;
+}
+
+.login-create-account {
+    display: flex;
+    justify-content: flex-end;
+    font-size: 12px;
+}
+
+.login-button-containter {
+    display: flex;
+    justify-content: flex-end;
+    align-items: center;
+    height: auto;
+    padding-top: 10px;
+}
+
+.login-button {
+    margin: 0;
+}
+
+.login-button:hover {
+    background: #47484d;
 }

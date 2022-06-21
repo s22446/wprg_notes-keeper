@@ -7,5 +7,6 @@ class NotesController extends AppController {
         $notes = $this->Notes->find();
 
         $this->set('notes', $notes);
+        $this->set('title', 'Notes Keeper');
     }
 }

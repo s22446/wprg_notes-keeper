@@ -12,6 +12,9 @@
         <?= $this->Html->css(['notes', 'normalize.min', 'milligram.min']) ?>
     </head>
     <body>
-        <div class="main-container"></div>
+        <div class="main-container">
+            <?= $this->Flash->render() ?>
+            <?= $this->fetch('content') ?>
+        </div>
     </body>
 </html>
