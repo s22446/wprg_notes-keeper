@@ -11,7 +11,8 @@ function columnForAdd() {
 function columnAddCleanup(columnName, addButton, columnId) {
     $(addButton).siblings('.column-name').html(columnName);
     $(addButton).closest('.notes-column').data('columnId', columnId);
-    $(addButton).parent().prepend($('#column-delete-template').children().first());
+    $(addButton).parent().prepend($('#column-delete-template').children().first().clone());
+    $(addButton).parent().parent().siblings('.notes-column-content').append($('#note-add-template').children().first().clone().click(addNote));
     $(addButton).remove();
     columnForAdd();
 }

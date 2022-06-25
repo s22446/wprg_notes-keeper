@@ -40,6 +40,9 @@
     <div id="column-delete-template">
         <div class="remove-column" onclick="removeColumn(this)"><span class="remove-button-tooltip">Remove column</span></div>
     </div>
+    <div id="note-add-template">
+        <div class="add-note"><span class="add-note-tooltip">Add note</span></div>
+    </div>
     <div id="note-template">
         <div class="note-container">
             <div class="note-buttons">
