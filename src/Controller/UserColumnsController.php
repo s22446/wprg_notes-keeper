@@ -7,17 +7,12 @@ class UserColumnsController extends AppController {
         $this->autoRender = false;
 
         if ($this->request->is('ajax')) {
-            $userColumn = $this->UserColumns->newEmptyEntity();
-
             $userId = $this->request->getAttribute('identity')['id'];
-            $data = $this->request->getData();
 
-            $userColumn->user_id = $userId;
-            $userColumn->name = $data['columnName'];
-            $userColumn->position = $data['columnPosition'];
+            $columnAddReturn = $this->UserColumns->createColumn($this->request->getData(), $userId);
 
-            if ($this->UserColumns->save($userColumn)) {
-                die(json_encode(['status' => 'SUCCESS', 'message' => 'Successfully added column.', 'columnId' => $userColumn->id]));
+            if ($columnAddReturn['result']) {
+                die(json_encode(['status' => 'SUCCESS', 'message' => 'Successfully added column.', 'columnId' => $columnAddReturn['columnId']]));
             }
             else {
                 die(json_encode(['status' => 'ERROR', 'message' => 'Error occured during adding the column.']));

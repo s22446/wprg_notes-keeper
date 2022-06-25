@@ -28,18 +28,12 @@ class NotesController extends AppController {
         $this->autoRender = false;
 
         if ($this->request->is('ajax')) {
-            $note = $this->Notes->newEmptyEntity();
-
             $userId = $this->request->getAttribute('identity')['id'];
-            $data = $this->request->getData();
+            
+            $noteAddReturn = $this->Notes->createNote($this->request->getData(), $userId);
 
-            $note->user_id = $userId;
-            $note->user_column_id = $data['columnId'];
-            $note->position = $data['notePosition'];
-            $note->text = "";
-
-            if ($this->Notes->save($note)) {
-                die(json_encode(['status' => 'SUCCESS', 'message' => 'Successfully added note.', 'noteId' => $note->id]));
+            if ($noteAddReturn['result']) {
+                die(json_encode(['status' => 'SUCCESS', 'message' => 'Successfully added note.', 'noteId' => $noteAddReturn['noteId']]));
             }
             else {
                 die(json_encode(['status' => 'ERROR', 'message' => 'Error occured during adding the note.']));
@@ -54,24 +48,20 @@ class NotesController extends AppController {
         $this->autoRender = false;
 
         if ($this->request->is('ajax')) {
-            $data = $this->request->getData();
-            $noteId = $data['noteId'];
-
             $userId = $this->request->getAttribute('identity')['id'];
 
-            $note = $this->Notes->get($noteId);
+            $noteUpdateReturn = $this->Notes->updateNote($this->request->getData(), $userId);
 
-            if ($note->user_id != $userId) {
-                die(json_encode(['status' => 'ERROR', 'message' => 'You don\'t have permissions to manage this note.']));
-            }
-
-            $note->text = $data['text'];
-
-            if ($this->Notes->save($note)) {
+            if ($noteUpdateReturn['result']) {
                 die(json_encode(['status' => 'SUCCESS', 'message' => 'Successfully saved note.']));
             }
             else {
-                die(json_encode(['status' => 'ERROR', 'message' => 'Error occured during saving the note.']));
+                if ($noteUpdateReturn['errorCause'] == 'PERMISSIONS') {
+                    die(json_encode(['status' => 'ERROR', 'message' => 'You don\'t have permissions to manage this note.']));
+                }
+                else {
+                    die(json_encode(['status' => 'ERROR', 'message' => 'Error occured during saving the note.']));
+                }
             }
         }
         else {
@@ -79,26 +69,24 @@ class NotesController extends AppController {
         }
     }
 
-    public function deleteNote() {
+    public function removeNote() {
         $this->autoRender = false;
 
         if ($this->request->is('ajax')) {
-            $data = $this->request->getData();
-            $noteId = $data['noteId'];
-
             $userId = $this->request->getAttribute('identity')['id'];
 
-            $note = $this->Notes->get($noteId);
+            $noteRemoveReturn = $this->Notes->removeNote($this->request->getData(), $userId);
 
-            if ($note->user_id != $userId) {
-                die(json_encode(['status' => 'ERROR', 'message' => 'You don\'t have permissions to manage this note.']));
-            }
-
-            if ($this->Notes->delete($note)) {
+            if ($noteRemoveReturn['result']) {
                 die(json_encode(['status' => 'SUCCESS', 'message' => 'Successfully removed note.']));
             }
             else {
-                die(json_encode(['status' => 'ERROR', 'message' => 'Error occured during deletion of the note.']));
+                if ($noteRemoveReturn['errorCause'] === 'PERMISSIONS') {
+                    die(json_encode(['status' => 'ERROR', 'message' => 'You don\'t have permissions to manage this note.']));
+                }
+                else {
+                    die(json_encode(['status' => 'ERROR', 'message' => 'Error occured during deletion of the note.']));
+                }
             }
         }
     }

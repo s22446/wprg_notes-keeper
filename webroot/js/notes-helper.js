@@ -19,6 +19,10 @@ function sendPostAjax(url, data, doneCallback, failCallback) {
 function textAreaExpander() {
     var note = $(this)[0];
 
+    expandTextArea(note);
+}
+
+function expandTextArea(note) {
     note.style.height = "";
     note.style.height = note.scrollHeight + "px";
 }

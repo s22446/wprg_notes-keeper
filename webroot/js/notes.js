@@ -1,7 +1,7 @@
 $(document).ready(function () {
     $('.add-note').click(addNote);
     $('.save-note').click(saveNote);
-    $('.delete-note').click(deleteNote);
+    $('.delete-note').click(removeNote);
     $('.note').on('input', textAreaExpander);
     expandExistingTextAreas();
 });
@@ -10,8 +10,7 @@ function expandExistingTextAreas() {
     $('.note').each(function () {
         var note = $(this)[0];
 
-        note.style.height = "";
-        note.style.height = note.scrollHeight + "px";
+        expandTextArea(note);
     });
 }
 
@@ -20,14 +19,14 @@ function addNote() {
 
     var url = getAppUrl() + '/Notes/addNote';
     var columnId = $(this).closest('.notes-column').data('columnId');
-    var position = $(note).index() + 1;
+    var position = $(note).parent().index() + 1;
 
     var successCallback = function (data) {
         data = JSON. parse(data);
         if (data.status === 'SUCCESS') {
             $(note).parent().data('noteId', data.noteId);
             $(note).parent().find('.note-buttons .save-note').click(saveNote);
-            $(note).parent().find('.note-buttons .delete-note').click(deleteNote);
+            $(note).parent().find('.note-buttons .delete-note').click(removeNote);
         }
         else {
             failCallback();
@@ -84,8 +83,8 @@ function saveNote() {
     sendPostAjax(url, data, successCallback, failCallback);
 }
 
-function deleteNote() {
-    var url = getAppUrl() + '/Notes/deleteNote';
+function removeNote() {
+    var url = getAppUrl() + '/Notes/removeNote';
 
     var note = $(this);
     var noteId = note.closest('.note-container').data('noteId');

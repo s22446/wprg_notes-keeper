@@ -12,4 +12,17 @@ class UserColumnsTable extends Table {
         ->setForeignKey('user_column_id')
         ->setDependent(true);
     }
+
+    public function createColumn($data, $userId) {
+        $userColumn = $this->newEmptyEntity();
+
+        $userColumn->user_id = $userId;
+        $userColumn->name = $data['columnName'];
+        $userColumn->position = $data['columnPosition'];
+
+        return [
+            'result' => $this->save($userColumn),
+            'columnId' => $userColumn->id
+        ];
+    }
 }
