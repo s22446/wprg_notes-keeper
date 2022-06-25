@@ -4,7 +4,7 @@ $(document).ready(function () {
 });
 
 function addNote() {
-    var note = $('#note-template').children().first().clone().on('input', textAreaExpander).insertBefore(this);
+    var note = $('#note-template').children().first().clone().insertBefore(this).find('.note').on('input', textAreaExpander);
 
     var url = getAppUrl() + '/Notes/addNote';
     var columnId = $(this).closest('.notes-column').data('columnId');
@@ -36,7 +36,8 @@ function addNote() {
 }
 
 function saveNote() {
-    console.log('save note');
+    var text = $(this).parent().siblings('.note').val();
+    console.log(text);
 }
 
 function deleteNote() {
