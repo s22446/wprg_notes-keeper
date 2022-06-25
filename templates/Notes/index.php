@@ -10,12 +10,12 @@
                 </div>
                 <div class="notes-column-content">
                     <?php foreach ($userColumn['notes'] as $note) : ?>
-                        <div class="note-container">
+                        <div class="note-container" data-note-id="<?= $note['id'] ?>">
                             <div class="note-buttons">
                                 <div class="save-note"><span class="note-button-tooltip">Save note</span></div>
                                 <div class="delete-note"><span class="note-button-tooltip">Delete note</span></div>
                             </div>
-                            <textarea class="note"></textarea>
+                            <textarea class="note"><?= $note['text'] ?></textarea>
                         </div>
                     <?php endforeach; ?>
                     <div class="add-note"><span class="add-note-tooltip">Add note</span></div>
@@ -53,3 +53,4 @@
         </div>
     </div>
 </div>
+<div class="success-popup-message"></div>

@@ -35,8 +35,14 @@ class UserColumnsController extends AppController {
             $data = $this->request->getData();
             $columnId = $data['columnId'];
 
+            $userId = $this->request->getAttribute('identity')['id'];
+
             $column = $this->UserColumns->get($columnId);
-            
+
+            if ($column->user_id != $userId) {
+                die(json_encode(['status' => 'ERROR', 'message' => 'You don\'t have permissions to manage this column.']));
+            }
+
             if ($this->UserColumns->delete($column)) {
                 die(json_encode(['status' => 'SUCCESS', 'message' => 'Successfully removed column.']));
             }
