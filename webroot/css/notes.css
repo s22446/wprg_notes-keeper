@@ -2,7 +2,8 @@
     GENERAL STYLING
 */
 
-html, body {
+html,
+body {
     width: 100%;
     height: 100%;
 }
@@ -159,6 +160,8 @@ body {
 
 .notes-column-content {
     height: auto;
+    padding-left: 10%;
+    padding-right: 10%;
 }
 
 .column-header-content {
@@ -169,7 +172,8 @@ body {
     font-size: 24px;
 }
 
-.add-column {
+.add-column,
+.add-note {
     height: 30px;
     width: 30px;
     background-image: url(../img/notes/add_column.png);
@@ -180,7 +184,8 @@ body {
     position: relative;
 }
 
-.add-button-tooltip {
+.add-button-tooltip,
+.add-note-tooltip {
     visibility: hidden;
     width: 140px;
     background-color: #555;
@@ -195,9 +200,10 @@ body {
     margin-left: -60px;
     opacity: 0;
     transition: opacity 0.3s;
-  }
-  
-.add-button-tooltip::after {
+}
+
+.add-button-tooltip::after,
+.add-note-tooltip::after {
     content: "";
     position: absolute;
     top: -21%;
@@ -209,12 +215,14 @@ body {
     transform: rotate(180deg);
 }
 
-.add-column:hover .add-button-tooltip {
+.add-column:hover .add-button-tooltip,
+.add-note:hover .add-note-tooltip {
     transform: rotate(-45deg);
 }
 
 .add-column:hover .add-button-tooltip,
-.remove-column:hover .remove-button-tooltip {
+.remove-column:hover .remove-button-tooltip,
+.add-note:hover .add-note-tooltip {
     visibility: visible;
     opacity: 1;
 }
@@ -244,8 +252,8 @@ body {
     margin-left: -60px;
     opacity: 0;
     transition: opacity 0.3s;
-  }
-  
+}
+
 .remove-button-tooltip::after {
     content: "";
     position: absolute;
@@ -262,6 +270,97 @@ body {
     position: absolute;
     right: 50px;
     top: 30px;
+}
+
+/*
+    NOTES
+*/
+
+.note-container {
+    display: flex;
+    gap: 10px;
+    margin-top: 20px;
+}
+
+.note {
+    color: white;
+    margin: 0;
+    overflow: hidden;
+}
+
+.note-buttons {
+    display: flex;
+    align-items: center;
+    gap: 5px;
+}
+
+.save-note {
+    height: 30px;
+    width: 30px;
+    background-image: url(../img/notes/save_note.png);
+    background-size: contain;
+    background-repeat: no-repeat;
+    cursor: pointer;
+    position: relative;
+}
+
+.delete-note {
+    height: 30px;
+    width: 30px;
+    background-image: url(../img/notes/add_column.png);
+    background-size: contain;
+    background-repeat: no-repeat;
+    cursor: pointer;
+    position: relative;
+}
+
+.note-button-tooltip {
+    visibility: hidden;
+    width: 110px;
+    background-color: #555;
+    color: #fff;
+    text-align: center;
+    padding: 5px 0;
+    border-radius: 6px;
+    position: absolute;
+    z-index: 1;
+    top: 125%;
+    left: 65%;
+    margin-left: -60px;
+    opacity: 0;
+    transition: opacity 0.3s;
+}
+
+.note-button-tooltip::after {
+    content: "";
+    position: absolute;
+    top: -30%;
+    left: 50%;
+    margin-left: -5px;
+    border-width: 5px;
+    border-style: solid;
+    border-color: #555 transparent transparent transparent;
+    transform: rotate(180deg);
+}
+
+.save-note:hover .note-button-tooltip,
+.delete-note:hover .note-button-tooltip {
+    visibility: visible;
+    opacity: 1;
+}
+
+.add-note:not(:first-child) {
+    margin-top: 40px;
+}
+
+.add-note-tooltip {
+    width: 95px;
+    top: 82%;
+    left: 179%;
+}
+
+.add-note-tooltip::after {
+    top: -29%;
 }
 
 /*

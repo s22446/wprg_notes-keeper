@@ -1,86 +1,44 @@
 $(document).ready(function () {
-    columnForAdd();
+    $('.add-note').click(addNote);
+    $('.note').on('input', textAreaExpander);
 });
 
-function columnForAdd() {
-    $('#column-template').children().first()
-    .clone().appendTo('.notes-columns')
-    .find('.add-column').click(addColumn);
-}
+function addNote() {
+    var note = $('#note-template').children().first().clone().on('input', textAreaExpander).insertBefore(this);
 
-function columnAddCleanup(columnName, addButton, columnId) {
-    $(addButton).siblings('.column-name').html(columnName);
-    $(addButton).closest('.notes-column').data('columnId', columnId);
-    $(addButton).parent().prepend($('#column-delete-template').children().first());
-    $(addButton).remove();
-    columnForAdd();
-}
+    var url = getAppUrl() + '/Notes/addNote';
+    var columnId = $(this).closest('.notes-column').data('columnId');
+    var position = $(note).index() + 1;
 
-function columnRemoveCleanup(removeButton) {
-    $(removeButton).closest('.notes-column').remove();
-}
+    var successCallback = function (data) {
+        data = JSON. parse(data);
+        if (data.status === 'SUCCESS') {
+            $(note).data('noteId', data.noteId);
+            $(note).find('.note-buttons .save-note').click(saveNote);
+            $(note).find('.note-buttons .delete-note').click(deleteNote);
+        }
+        else {
+            failCallback();
+        }
+    };
 
-function addColumn() {
-    var addButton = this;
-    var columnName = $(this).parent().find('input').val();
-    var columnPosition = $(this).parent().parent().parent().index() + 1;
-
-    if (columnName === '') {
-        alert('Column name cannot be empty.');
+    var failCallback = function () {
+        alert('There has been error during adding note.');
+        window.location.reload(true);
     }
-    else {
-        var url = getAppUrl() + '/UserColumns/addColumn';
 
-        var successCallback = function (data) {
-            data = JSON. parse(data);
-            if (data.status === 'SUCCESS') {
-                var columnId = data.columnId;
-                columnAddCleanup(columnName, addButton, columnId);
-            }
-            else {
-                failCallback();
-            }
-        };
-
-        var failCallback = function () {
-            alert('There has been error during adding column.');
-        }
-
-        data = {
-            columnName: columnName,
-            columnPosition: columnPosition
-        }
-
-        sendPostAjax(url, data, successCallback, failCallback);
+    data = {
+        columnId: columnId,
+        notePosition: position
     }
+
+    sendPostAjax(url, data, successCallback, failCallback);
 }
 
-function removeColumn(that) {
-    var removeButton = that;
-    var columnId = $(removeButton).closest('.notes-column').data('columnId');
-    var deleteMessage = "Do you really want to delete this column and all it's notes?";
+function saveNote() {
+    console.log('save note');
+}
 
-    if (confirm(deleteMessage) && columnId !== undefined) {
-        var url = getAppUrl() + '/UserColumns/removeColumn';
-
-        var successCallback = function (data) {
-            data = JSON. parse(data);
-            if (data.status === 'SUCCESS') {
-                columnRemoveCleanup(removeButton);
-            }
-            else {
-                failCallback();
-            }
-        };
-
-        var failCallback = function () {
-            alert('There has been error during removing this column.');
-        }
-
-        data = {
-            columnId: columnId
-        }
-
-        sendPostAjax(url, data, successCallback, failCallback);
-    }
+function deleteNote() {
+    console.log('delete note');
 }
