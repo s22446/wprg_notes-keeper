@@ -36,7 +36,7 @@
             <div class="notes-column-header">
                 <div class="column-header-content">
                     <div class="add-column"><span class="add-button-tooltip">Add column</span></div>
-                    <div class="column-name"><input type="text" class="class-name-input" placeholder="Add column"></div>
+                    <div class="column-name"><input type="text" class="column-name-input" placeholder="Add column"></div>
                 </div>
                 <div class="column-name-change">
                     <div class="update-column" onclick="saveEditedColumn(this)"><span class="update-button-tooltip">Save note</span></div>
