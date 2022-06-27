@@ -25,4 +25,28 @@ class UserColumnsTable extends Table {
             'columnId' => $userColumn->id
         ];
     }
+
+    public function modifyColumn($data, $userId) {
+        $userColumn = $this->get($data['columnId']);
+
+        $userColumn->name = $data['newColumnName'];
+
+        $result = false;
+
+        if ($userColumn->user_id != $userId) {
+            $errorCause = 'PERMISSIONS';
+        }
+        else if ($this->save($userColumn)) {
+            $result = true;
+            $errorCause = '';
+        }
+        else {
+            $errorCause = 'OTHER';
+        }
+        
+        return [
+            'result' => $result,
+            'errorCause' => $errorCause
+        ];
+    }
 }

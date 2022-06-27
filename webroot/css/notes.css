@@ -165,12 +165,17 @@ body {
     padding-right: 10%;
 }
 
-.column-header-content {
+.column-header-content,
+.column-name-change {
     display: flex;
     align-items: center;
     gap: 20px;
     color: white;
     font-size: 24px;
+}
+
+.column-name-change {
+    display: none;
 }
 
 .add-column,
@@ -204,7 +209,8 @@ body {
 }
 
 .add-button-tooltip::after,
-.add-note-tooltip::after {
+.add-note-tooltip::after,
+.edit-column-tooltip::after {
     content: "";
     position: absolute;
     top: -21%;
@@ -223,7 +229,8 @@ body {
 
 .add-column:hover .add-button-tooltip,
 .remove-column:hover .remove-button-tooltip,
-.add-note:hover .add-note-tooltip {
+.add-note:hover .add-note-tooltip,
+.edit-column:hover .edit-column-tooltip {
     visibility: visible;
     opacity: 1;
 }
@@ -267,6 +274,38 @@ body {
     transform: rotate(180deg);
 }
 
+.edit-column {
+    height: 30px;
+    width: 30px;
+    background-image: url(../img/notes/edit_column.png);
+    background-size: contain;
+    background-repeat: no-repeat;
+    cursor: pointer;
+    position: relative;
+}
+
+.edit-column-tooltip {
+    visibility: hidden;
+    width: 140px;
+    background-color: #555;
+    color: #fff;
+    text-align: center;
+    padding: 5px 0;
+    border-radius: 6px;
+    position: absolute;
+    z-index: 1;
+    top: 115%;
+    left: 19%;
+    margin-left: -60px;
+    opacity: 0;
+    transition: opacity 0.3s;
+}
+
+.edit-column-tooltip::after {
+    top: -21%;
+    left: 50%;
+}
+
 .logout-link {
     position: absolute;
     right: 50px;
@@ -295,7 +334,8 @@ body {
     gap: 5px;
 }
 
-.save-note {
+.save-note,
+.update-column {
     height: 30px;
     width: 30px;
     background-image: url(../img/notes/save_note.png);
@@ -315,7 +355,8 @@ body {
     position: relative;
 }
 
-.note-button-tooltip {
+.note-button-tooltip,
+.update-button-tooltip {
     visibility: hidden;
     width: 110px;
     background-color: #555;
@@ -332,7 +373,8 @@ body {
     transition: opacity 0.3s;
 }
 
-.note-button-tooltip::after {
+.note-button-tooltip::after,
+.update-button-tooltip::after {
     content: "";
     position: absolute;
     top: -30%;
@@ -344,8 +386,17 @@ body {
     transform: rotate(180deg);
 }
 
+.update-button-tooltip {
+    top: 118%;
+}
+
+.update-button-tooltip::after {
+    top: -20%;
+}
+
 .save-note:hover .note-button-tooltip,
-.delete-note:hover .note-button-tooltip {
+.delete-note:hover .note-button-tooltip,
+.update-column:hover .update-button-tooltip {
     visibility: visible;
     opacity: 1;
 }
@@ -372,7 +423,8 @@ body {
     display: none;
 }
 
-.class-name-input {
+.column-name-input,
+.class-name-update-input {
     margin: 0;
     color: white;
 }

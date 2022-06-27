@@ -23,6 +23,26 @@ class UserColumnsController extends AppController {
         }
     }
 
+    public function editColumn() {
+        $this->autoRender = false;
+
+        if ($this->request->is('ajax')) {
+            $userId = $this->request->getAttribute('identity')['id'];
+
+            $columnModifyReturn = $this->UserColumns->modifyColumn($this->request->getData(), $userId);
+
+            if ($columnModifyReturn['result']) {
+                die(json_encode(['status' => 'SUCCESS', 'message' => 'Successfully edited column.']));
+            }
+            else {
+                die(json_encode(['status' => 'ERROR', 'message' => 'Error occured during editing the column.']));
+            }
+        }
+        else {
+            die(json_encode(['status' => 'ERROR', 'message' => 'Invalid request']));
+        }
+    }
+
     public function removeColumn() {
         $this->autoRender = false;
 
