@@ -1,6 +1,6 @@
 <div class="notes-columns-container">
     <div class="notes-columns">
-        <?php foreach ($userColumns as $userColumn) : ?>
+        <?php foreach ($userColumnsWithNotes as $userColumn) : ?>
             <div class="notes-column" data-column-id="<?= $userColumn['id'] ?>">
                 <div class="notes-column-header">
                     <div class="column-header-content">
@@ -28,7 +28,10 @@
             </div>
         <?php endforeach; ?>
     </div>
-    <div class="logout-link"><a href="<?= $this->Url->build(['controller' => 'Users', 'action' => 'logout']) ?>">LOGOUT</a></div>
+    <div class="action-links">
+        <a href="<?= $this->Url->build(['controller' => 'Notes', 'action' => 'exportNotes']) ?>">EXPORT NOTES</a>
+        <a href="<?= $this->Url->build(['controller' => 'Users', 'action' => 'logout']) ?>">LOGOUT</a>
+    </div>
 </div>
 <div class="templates">
     <div id="column-template">

@@ -8,19 +8,9 @@ class NotesController extends AppController {
 
         $userId = $this->request->getAttribute('identity')['id'];
 
-        $userColumns = $userColumnsModel->find()
-        ->where(['user_id' => $userId])
-        ->toArray();
+        $userColumnsWithNotes = $userColumnsModel->getUserColumnsWithNotes($userId);
 
-        foreach ($userColumns as $userColumn) {
-            $notes = $this->Notes->find()
-            ->where(['user_id' => $userId, 'user_column_id' => $userColumn['id']])
-            ->toArray();
-            
-            $userColumn['notes'] = $notes;
-        }
-
-        $this->set('userColumns', $userColumns);
+        $this->set('userColumnsWithNotes', $userColumnsWithNotes);
         $this->set('title', 'Notes Keeper');
     }
 
@@ -88,6 +78,43 @@ class NotesController extends AppController {
                     die(json_encode(['status' => 'ERROR', 'message' => 'Error occured during deletion of the note.']));
                 }
             }
+        }
+    }
+
+    public function exportNotes() {
+        $this->autoRender = false;
+
+        $userColumnsModel = $this->getTableLocator()->get('UserColumns');
+
+        $userId = $this->request->getAttribute('identity')['id'];
+
+        $userColumnsWithNotes = $userColumnsModel->getUserColumnsWithNotes($userId);
+
+        header('Content-Type: text/csv; charset=utf-8');
+        header('Content-Disposition: attachment; filename=notes-' . date("d.m.Y H:i:s") . '.csv');
+        $output = fopen('php://output', 'w');
+        fputs($output, "\xEF\xBB\xBF");
+
+        $headerArray = [];
+        $longestNoteColumnLength = 0;
+
+        foreach ($userColumnsWithNotes as $userColumn) {
+            $headerArray[] = $userColumn['name'];
+
+            if (count($userColumn['notes']) > $longestNoteColumnLength) {
+                $longestNoteColumnLength = count($userColumn['notes']);
+            }
+        }
+
+        fputcsv($output, $headerArray, ";");
+
+        for ($i = 0; $i < $longestNoteColumnLength; $i++) {
+            $contentArray = [];
+            foreach ($userColumnsWithNotes as $userColumn) {
+                $contentArray[] = isset($userColumn['notes'][$i]) ? $userColumn['notes'][$i]['text'] : '';
+            }
+
+            fputcsv($output, $contentArray, ";");
         }
     }
 }

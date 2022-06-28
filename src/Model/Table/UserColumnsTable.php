@@ -3,14 +3,35 @@
 namespace App\Model\Table;
 
 use Cake\ORM\Table;
+use Cake\ORM\Locator\LocatorAwareTrait;
 
 class UserColumnsTable extends Table {
+    use LocatorAwareTrait;
+    
     public function initialize(array $config): void {
         $this->addBehavior('Timestamp');
 
         $this->hasMany('Notes')
         ->setForeignKey('user_column_id')
         ->setDependent(true);
+    }
+
+    public function getUserColumnsWithNotes($userId) {
+        $userColumnsWithNotes = $this->find()
+        ->where(['user_id' => $userId])
+        ->toArray();
+
+        $notesModel = $this->getTableLocator()->get('Notes');
+
+        foreach ($userColumnsWithNotes as $userColumn) {
+            $notes = $notesModel->find()
+            ->where(['user_id' => $userId, 'user_column_id' => $userColumn['id']])
+            ->toArray();
+            
+            $userColumn['notes'] = $notes;
+        }
+
+        return $userColumnsWithNotes;
     }
 
     public function createColumn($data, $userId) {
